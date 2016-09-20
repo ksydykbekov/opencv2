@@ -39,6 +39,7 @@ int main(int argc, char** argv )
 
     src_gray = src_gray > 128;
 
+    //addsd
 
 
     bitwise_not(src_gray, src_gray);
