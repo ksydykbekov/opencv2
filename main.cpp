@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 /*
 int main() {
@@ -7,8 +8,9 @@ int main() {
 }
 */
 
-#include <stdio.h>
+
 #include <opencv2/opencv.hpp>
+#include <cstdio>
 
 using namespace cv;
 
@@ -29,32 +31,66 @@ int main(int argc, char** argv )
     if( !src.data )
     { return -1; }
 
-    GaussianBlur( src, src, Size(3,3), 0, 0, BORDER_DEFAULT );
+    //GaussianBlur( src, src, Size(3,3), 0, 0, BORDER_DEFAULT );
 
     /// Convert it to gray
+
     cvtColor( src, src_gray, CV_BGR2GRAY );
 
-    /// Create window
+    src_gray = src_gray > 128;
+
+
+
+    bitwise_not(src_gray, src_gray);
+
+   // int ef = src_gray.at(Point(21,12));
+
+//    fprintf( stderr, "Error %i\n", ef);
+
+    Scalar intensity = src_gray.at<uchar>(Point(100, 100));
+
+    printf(  "Intensity  %d", (unsigned)intensity.val[0]);
+
+    Size s = src_gray.size();
+
+    for(int x = 0; x < s.width ; x++)
+        for(int y = 0; y < s.height ; y++)   {
+            intensity = src_gray.at<uchar>(Point(x, y));
+             (intensity.val[0] == 255 )? src_gray.at<uchar>(Point(x, y)) = 0 : src_gray.at<uchar>(Point(x, y)) = 255;
+        }
+
+    try {
+        imwrite("/home/kama/inverted.jpg", src_gray);
+    }
+    catch(Exception exception)
+    {
+        fprintf(stderr, "Error %s\n", exception.what() );
+    }
+    /// Create windown
     namedWindow( window_name, CV_WINDOW_AUTOSIZE );
 
+
+    imshow( window_name, src_gray );
     /// Generate grad_x and grad_y
-    Mat grad_x, grad_y;
-    Mat abs_grad_x, abs_grad_y;
 
-    /// Gradient X
-    //Scharr( src_gray, grad_x, ddepth, 1, 0, scale, delta, BORDER_DEFAULT );
-    Sobel( src_gray, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT );
-    convertScaleAbs( grad_x, abs_grad_x );
+    /*
+     Mat grad_x, grad_y;
+     Mat abs_grad_x, abs_grad_y;
 
-    /// Gradient Y
-    //Scharr( src_gray, grad_y, ddepth, 0, 1, scale, delta, BORDER_DEFAULT );
-    Sobel( src_gray, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT );
-    convertScaleAbs( grad_y, abs_grad_y );
+     /// Gradient X
+     //Scharr( src_gray, grad_x, ddepth, 1, 0, scale, delta, BORDER_DEFAULT );
+     Sobel( src_gray, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT );
+     convertScaleAbs( grad_x, abs_grad_x );
 
-    /// Total Gradient (approximate)
-    addWeighted( abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad );
+     /// Gradient Y
+     //Scharr( src_gray, grad_y, ddepth, 0, 1, scale, delta, BORDER_DEFAULT );
+     Sobel( src_gray, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT );
+     convertScaleAbs( grad_y, abs_grad_y );
 
-    imshow( window_name, grad );
+     /// Total Gradient (approximate)
+     addWeighted( abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad );
+
+  //   imshow( window_name, grad );*/
 
     waitKey(0);
 
