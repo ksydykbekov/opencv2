@@ -40,9 +40,10 @@ int main(int argc, char** argv )
     src_gray = src_gray > 128;
 
     //addsd
-
-
-    bitwise_not(src_gray, src_gray);
+    //TODO::
+//
+//aasasdasdasd
+    //bitwise_not(src_gray, src_gray);
 
    // int ef = src_gray.at(Point(21,12));
 
