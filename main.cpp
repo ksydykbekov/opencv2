@@ -14,6 +14,8 @@ int main() {
 
 using namespace cv;
 
+//asdasdasasd asdasd asdasd
+
 int main(int argc, char** argv )
 {
     Mat src, src_gray;
@@ -25,7 +27,7 @@ int main(int argc, char** argv )
 
     int c;
 
-    /// Load an image
+    /// Loеad an image
     src = imread( argv[1] );
 
     if( !src.data )
@@ -43,13 +45,14 @@ int main(int argc, char** argv )
     //TODO::
 //
 //aasasdasdasd
-    //bitwise_not(src_gray, src_gray);
+
+    bitwise_not(src_gray, src_gray);
 
    // int ef = src_gray.at(Point(21,12));
 
 //    fprintf( stderr, "Error %i\n", ef);
 
-    Scalar intensity = src_gray.at<uchar>(Point(100, 100));
+   /* Scalar intensity = src_gray.at<uchar>(Point(100, 100));
 
     printf(  "Intensity  %d", (unsigned)intensity.val[0]);
 
@@ -68,7 +71,7 @@ int main(int argc, char** argv )
     {
         fprintf(stderr, "Error %s\n", exception.what() );
     }
-    /// Create windown
+   */ /// Create windown
     namedWindow( window_name, CV_WINDOW_AUTOSIZE );
 
 
